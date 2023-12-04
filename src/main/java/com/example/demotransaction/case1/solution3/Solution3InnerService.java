@@ -1,4 +1,4 @@
-package com.example.demotransaction.solution3;
+package com.example.demotransaction.case1.solution3;
 
 import com.example.demotransaction.Review;
 import com.example.demotransaction.ReviewRepository;

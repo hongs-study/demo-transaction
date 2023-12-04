@@ -1,4 +1,4 @@
-package com.example.demotransaction.solution3;
+package com.example.demotransaction.case1.problem;
 
 import com.example.demotransaction.Review;
 import com.example.demotransaction.ReviewRepository;
@@ -7,14 +7,20 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+/**
+ * Out 클래스. 문제 상황 재현
+ */
 @Slf4j
 @RequiredArgsConstructor
 @Service
-public class Solution3OutService {
+public class Problem1OutService {
 
-    private final Solution3InnerService innerService;
+    private final Problem1InnerService problem1InnerService;
     private final ReviewRepository reviewRepository;
 
+    /**
+     * 결과: 에러발생. UnexpectedRollbackException: Transaction silently rolled back because it has been marked as rollback-only
+     */
     @Transactional
     public void createReviewWithException() {
         log.info(" ========OUT 로직 시작========");
@@ -24,7 +30,7 @@ public class Solution3OutService {
 
         try {
             // inner 로직 호출. 2번리뷰 저장
-            innerService.createReviewWithException(2L, "2번리뷰: 요래요래해서 좋았어요!!");
+            problem1InnerService.createReviewWithException(2L, "2번리뷰: 요래요래해서 좋았어요!!");
         } catch (Exception ex) {
             // 의도: exception 받아서 로그만 찍기 때문에 이 메서드의 전체 로직은 정상작동(1,3번 리뷰 저장) 되어야 한다.
             log.error("리뷰 생성 중 에러 발생 - " + ex.getMessage());

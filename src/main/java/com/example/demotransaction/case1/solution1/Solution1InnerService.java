@@ -1,25 +1,27 @@
-package com.example.demotransaction.solution2;
+package com.example.demotransaction.case1.solution1;
 
 import com.example.demotransaction.Review;
 import com.example.demotransaction.ReviewRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
 @RequiredArgsConstructor
 @Service
-class Solution2InnerService {
+class Solution1InnerService {
 
     private final ReviewRepository reviewRepository;
 
-    // 해결방법 CheckedException로 발생시키기
-    @Transactional
-    public void createReviewWithException(Long userId, String text) throws Exception {
+    // 해결방법1: Transaction을 분리 한다. 방법은 REQUIRES_NEW 지정.
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    public void createReviewWithException(Long userId, String text) {
         reviewRepository.save(Review.builder().userId(userId).text(text).build());
 
-        //throw new RuntimeException("에랏 받아랏 RuntimeException 예외다!");
-        throw new Exception("에랏 받아랏 Exception 예외다!");
+        throw new RuntimeException("에랏 받아랏 RuntimeException 예외다!");
     }
 }
+
+

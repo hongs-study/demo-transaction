@@ -1,4 +1,4 @@
-package com.example.demotransaction.solution2;
+package com.example.demotransaction.case1.solution1;
 
 import com.example.demotransaction.Review;
 import com.example.demotransaction.ReviewRepository;
@@ -8,18 +8,18 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
- * Out 클래스. 해결방법2. Inner에서 CheckedException 을 발생시킴 (RuntimeException 대신)
+ * Out 클래스. 해결방법1. Transaction을 분리한다 (Transaction 2개 사용)
  */
 @Slf4j
 @RequiredArgsConstructor
 @Service
-public class Solution2OutService {
+public class Solution1OutService {
 
-    private final Solution2InnerService innerService;
+    private final Solution1InnerService innerService;
     private final ReviewRepository reviewRepository;
 
     /**
-     * 결과: OUT, INNER 모든 로직 Commit 됨
+     * 결과: Out 로직만 Commit 됨. Inner 로직은 Rollback 됨
      */
     @Transactional
     public void createReviewWithException() {
@@ -29,7 +29,7 @@ public class Solution2OutService {
         reviewRepository.save(Review.builder().userId(1L).text("1번리뷰: 요래요래해서 좋았어요!!").build());
 
         try {
-            // inner 로직 호출. 2번리뷰 저장 // CheckedException 발생시킴
+            // inner 로직 호출. 2번리뷰 저장
             innerService.createReviewWithException(2L, "2번리뷰: 요래요래해서 좋았어요!!");
         } catch (Exception ex) {
             // 의도: exception 받아서 로그만 찍기 때문에 이 메서드의 전체 로직은 정상작동(1,3번 리뷰 저장) 되어야 한다.
