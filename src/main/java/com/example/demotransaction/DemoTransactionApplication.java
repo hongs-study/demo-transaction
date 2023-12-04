@@ -1,6 +1,6 @@
 package com.example.demotransaction;
 
-import com.example.demotransaction.testcase1.TestCase1OutService;
+import com.example.demotransaction.case2.problem.Problem2OutService;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
@@ -21,7 +21,8 @@ public class DemoTransactionApplication {
 //    Solution1OutService outService;
 //    Solution2OutService outService;
 //    Solution3OutService outService;
-    TestCase1OutService outService;
+//    TestCase1OutService outService;
+    Problem2OutService outService;
 
     public static void main(String[] args) {
         SpringApplication.run(DemoTransactionApplication.class, args);
