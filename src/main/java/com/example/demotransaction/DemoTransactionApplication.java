@@ -1,16 +1,26 @@
 package com.example.demotransaction;
 
+import com.example.demotransaction.solution3.Solution3OutService;
+import java.util.List;
 import javax.annotation.PostConstruct;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.transaction.UnexpectedRollbackException;
 
+@Slf4j
 @SpringBootApplication
 public class DemoTransactionApplication {
 
     @Autowired
     DemoTransactionController controller;
+    @Autowired
+    ReviewRepository reviewRepository;
+    @Autowired
+//    ProblemOutService outService;
+//    Solution1OutService outService;
+//    Solution2OutService outService;
+    Solution3OutService outService;
 
     public static void main(String[] args) {
         SpringApplication.run(DemoTransactionApplication.class, args);
@@ -18,6 +28,9 @@ public class DemoTransactionApplication {
 
     @PostConstruct
     public void init() {
-        controller.go();
+        outService.createReviewWithException();
+
+        List<Review> all = reviewRepository.findAll();
+        log.info("====================>>>>> 결과: 저장된 데이터 갯수 = {} 개", all.size());
     }
 }
