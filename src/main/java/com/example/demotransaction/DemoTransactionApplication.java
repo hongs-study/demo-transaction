@@ -1,6 +1,6 @@
 package com.example.demotransaction;
 
-import com.example.demotransaction.solution3.Solution3OutService;
+import com.example.demotransaction.testcase1.TestCase1OutService;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
@@ -20,14 +20,15 @@ public class DemoTransactionApplication {
 //    ProblemOutService outService;
 //    Solution1OutService outService;
 //    Solution2OutService outService;
-    Solution3OutService outService;
+//    Solution3OutService outService;
+    TestCase1OutService outService;
 
     public static void main(String[] args) {
         SpringApplication.run(DemoTransactionApplication.class, args);
     }
 
     @PostConstruct
-    public void init() {
+    public void init() throws Exception {
         outService.createReviewWithException();
 
         List<Review> all = reviewRepository.findAll();
