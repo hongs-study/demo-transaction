@@ -1,7 +1,7 @@
-package com.example.demotransaction.testcase1;
+package com.example.demotransaction.application.case2.testcase1;
 
-import com.example.demotransaction.Review;
-import com.example.demotransaction.ReviewRepository;
+import com.example.demotransaction.domain.Review;
+import com.example.demotransaction.domain.ReviewRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

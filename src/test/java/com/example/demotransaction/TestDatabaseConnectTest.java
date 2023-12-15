@@ -1,5 +1,7 @@
 package com.example.demotransaction;
 
+import com.example.demotransaction.domain.Review;
+import com.example.demotransaction.domain.ReviewRepository;
 import java.util.Optional;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

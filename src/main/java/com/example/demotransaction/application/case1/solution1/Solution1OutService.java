@@ -1,31 +1,33 @@
-package com.example.demotransaction.case2.problem;
+package com.example.demotransaction.application.case1.solution1;
 
-import com.example.demotransaction.Review;
-import com.example.demotransaction.ReviewRepository;
+import com.example.demotransaction.domain.Review;
+import com.example.demotransaction.domain.ReviewRepository;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+/**
+ * Out 클래스. 해결방법1. Transaction을 분리한다 (Transaction 2개 사용)
+ */
 @Slf4j
 @RequiredArgsConstructor
 @Service
-public class Problem2OutService {
+public class Solution1OutService {
 
-    private final Problem2InnerService innerService;
+    private final Solution1InnerService innerService;
     private final ReviewRepository reviewRepository;
 
     /**
-     * Inner에 @Transactional 없을 때
-     * 예상) OUT 로직 Rollback 된다
-     * 결과) OUT 로직 Commit 됨!  =>  후처리에서 겪은 것과 동일한 현상. 호출되는 메서드에 트랜젝션이 없으면 RuntimeException이 발생해도 rollback 되지 않음!
+     * 결과: Out 로직만 Commit 됨. Inner 로직은 Rollback 됨
      */
     @Transactional
-    public void createReviewWithException() {
+    public List<Long> createReviewWithException() {
         log.info(" ========OUT 로직 시작========");
 
         // out 로직. 1번리뷰 저장
-        reviewRepository.save(Review.builder().userId(1L).text("1번리뷰: 요래요래해서 좋았어요!!").build());
+        Review review01 = reviewRepository.save(Review.builder().userId(1L).text("1번리뷰: 요래요래해서 좋았어요!!").build());
 
         try {
             // inner 로직 호출. 2번리뷰 저장
@@ -36,8 +38,9 @@ public class Problem2OutService {
         }
 
         // out 로직. 3번리뷰 저장
-        reviewRepository.save(Review.builder().userId(3L).text("3번리뷰: 요래요래해서 좋았어요!!").build());
+        Review review02 = reviewRepository.save(Review.builder().userId(3L).text("3번리뷰: 요래요래해서 좋았어요!!").build());
 
         log.info(" ========OUT 로직 완료========");
+        return List.of(review01.getId(), review02.getId());
     }
 }
